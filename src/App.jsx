@@ -2,7 +2,7 @@
 const App = () => {
   return (
     <div className="main">
-    <h1>hot akhhha</h1>
+    <h1>hohha</h1>
       <p>
         Edit <code>src/App.js</code> and save to reload.
       </p>
