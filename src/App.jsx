@@ -3,6 +3,7 @@ const App = () => {
   return (
     <div className="main">
     <h1>hohha</h1>
+     <div>another test</div>
       <p>
         Edit <code>src/App.js</code> and save to reload.
       </p>
