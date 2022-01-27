@@ -6,7 +6,7 @@ const App = () => {
       <p>
         Edit <code>src/App.js</code> and save to reload.
       </p>
-    <p>it seem like it working </p>
+    <p>it seem like it work does it iiook? </p>
     </div>
   );
 };
