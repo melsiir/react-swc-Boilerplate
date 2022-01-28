@@ -3,38 +3,42 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-
-
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const isDevelopment = process.env.NODE_ENV === "development";
 const isProduction = process.env.NODE_ENV === "production";
 
-let mode = "development"
+let mode = "development";
 
-const styleLoader = isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader;
+const styleLoader = isDevelopment
+  ? "style-loader"
+  : MiniCssExtractPlugin.loader;
 
 const plugins = [
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: path.resolve(__dirname, "public/index.html"),
-      // favicon: "./public/favicon.ico",
-      manifest: "./public/manifest.json",
-    }),
+  new CleanWebpackPlugin(),
+  new HtmlWebpackPlugin({
+    filename: "index.html",
+    template: path.resolve(__dirname, "public/index.html"),
+    // favicon: "./public/favicon.ico",
+    manifest: "./public/manifest.json",
+  }),
   new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
-    ignoreOrder: false, // Enable to remove warnings about conflicting order
-    }),
-]
+    filename: "[name].css",
+    chunkFilename: "[id].css",
+    ignoreOrder: true, // Enable to remove warnings about conflicting order
+  }),
+];
+
+
 
 if (isDevelopment) {
-  plugins.push(new ReactRefreshPlugin())
+  plugins.push(new ReactRefreshPlugin());
 }
-
 
 if (isProduction) {
-  mode = "production"
+  mode = "production";
 }
+
+
 
 
 module.exports = {
@@ -69,8 +73,13 @@ module.exports = {
   },
   entry: path.join(__dirname, "/src/index.js"),
   output: {
-    filename: "bundle.js",
-    path: isDevelopment ? path.join(__dirname, "public") : isProduction ? path.join(__dirname, 'build'): 'none' ,
+    filename: "[name].bundle.js",
+    path: isDevelopment
+      ? path.join(__dirname, "public")
+      : isProduction
+      ? path.join(__dirname, "build")
+      : "none",
+    // clean: true,
   },
   plugins: plugins,
 
