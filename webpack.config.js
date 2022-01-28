@@ -1,10 +1,44 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+
+
 const isDevelopment = process.env.NODE_ENV === "development";
+const isProduction = process.env.NODE_ENV === "production";
+
+let mode = "development"
+
+const styleLoader = isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader;
+
+const plugins = [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: path.resolve(__dirname, "public/index.html"),
+      // favicon: "./public/favicon.ico",
+      manifest: "./public/manifest.json",
+    }),
+  new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css",
+    ignoreOrder: false, // Enable to remove warnings about conflicting order
+    }),
+]
+
+if (isDevelopment) {
+  plugins.push(new ReactRefreshPlugin())
+}
+
+
+if (isProduction) {
+  mode = "production"
+}
+
 
 module.exports = {
-  mode: isDevelopment ? "development" : "production",
+  mode: mode,
   stats: "minimal",
   devServer: {
     historyApiFallback: true,
@@ -15,10 +49,11 @@ module.exports = {
       directory: path.join(__dirname, "public"),
     },
     host: "local-ip",
+    // open: true,
     client: {
       overlay: true,
       progress: true,
-      webSocketURL: "ws://0.0.0.0:8080/ws",
+      // webSocketURL: "ws://0.0.0.0:8080/ws",
     },
   },
   resolve: {
@@ -35,17 +70,10 @@ module.exports = {
   entry: path.join(__dirname, "/src/index.js"),
   output: {
     filename: "bundle.js",
-    path: path.join(__dirname, "public"),
+    path: isDevelopment ? path.join(__dirname, "public") : isProduction ? path.join(__dirname, 'build'): 'none' ,
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: path.resolve(__dirname, "public/index.html"),
-      // favicon: "./public/favicon.ico",
-      manifest: "./public/manifest.json",
-    }),
-    new ReactRefreshPlugin(),
-  ],
+  plugins: plugins,
+
   module: {
     rules: [
       {
@@ -58,17 +86,29 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader"],
+        include: path.resolve(__dirname, "src"),
+        use: [styleLoader, "css-loader"],
       },
       {
         test: /\.s[ca]ss$/i,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        include: path.resolve(__dirname, "src"),
+        use: [styleLoader, "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|ico|txt)$/i,
-        use: ["file-loader?name=[name].[ext]"],
+        // use: ["file-loader?name=[name].[ext]"],
+        type: "asset",
       },
     ],
   },
+  optimization: {
+    minimizer: [
+      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+      `...`,
+      new CssMinimizerPlugin(),
+    ],
+  },
+
+  devtool: "source-map",
 };

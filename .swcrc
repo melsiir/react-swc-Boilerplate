@@ -7,9 +7,7 @@
     },
     "transform": {
       "react": {
-        "runtime": "automatic",
-        "development": true,
-        "refresh": true
+        "runtime": "automatic"
       }
     }
   }
