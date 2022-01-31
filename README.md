@@ -19,5 +19,5 @@
 
 ### usege
 
-- 'dev' : starting development server
-- 'build' : bundle App for production
+- `dev` : starting development server
+- `build` : bundle App for production
