@@ -34,12 +34,12 @@ const styleLoader = isDevelopment
   ? "style-loader"
   : MiniCssExtractPlugin.loader;
 
-const cssLoader = (isModule, imploader) => {
+const cssLoader = (isModule) => {
   const css = {
     loader: "css-loader",
     options: {
       sourceMap: isDevelopment,
-      importLoaders: imploader,
+      importLoaders: 1,
       modules: !isModule
         ? "global"
         : {
@@ -52,11 +52,7 @@ const cssLoader = (isModule, imploader) => {
           },
     },
   };
-  const ocss = {
-    loader: 'css-loader',
-  }
-  // return css;
-  return ocss;
+  return css;
 };
 
 console.log(cssLoader(false))
@@ -283,27 +279,27 @@ module.exports = {
         test: cssRegex,
         exclude: [sassRegex, /node_modules/],
         include: path.resolve(__dirname, "src"),
-        use: [styleLoader, cssLoader(false, 1), postcssLoader],
+        use: [styleLoader, cssLoader(false), postcssLoader],
       },
       {
         test: cssModuleRegex,
                 exclude: /node_modules/,
                 include: path.resolve(__dirname, "src"),
 
-                use: [styleLoader, cssLoader(true, 1), postcssLoader],
+                use: [styleLoader, cssLoader(true), postcssLoader],
 
       },
       {
         test: sassRegex,
         exclude: [ sassModuleRegex, /node_modules/ ],
         include: path.resolve(__dirname, "src"),
-        use: [styleLoader, cssLoader(false, 2), "sass-loader", postcssLoader],
+        use: [styleLoader, cssLoader(false), "sass-loader", postcssLoader],
       },
       {
         test: sassModuleRegex,
                 exclude: /node_modules/,
                 include: path.resolve(__dirname, "src"),
-                use: [styleLoader, cssLoader(true, 2), "sass-loader", postcssLoader],
+                use: [styleLoader, cssLoader(true), "sass-loader", postcssLoader],
       },
       {
         test: /\.svg$/,
