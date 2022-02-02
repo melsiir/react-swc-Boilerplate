@@ -1,12 +1,15 @@
 console.time("a");
 const path = require("path");
 const fs = require("fs");
+const glob = require('glob')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const PurgeCSSPlugin = require('purgecss-webpack-plugin')
 const CompressionPlugin = require("compression-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const createEnviromentHash = require("./utils/createEnviromentHash");
@@ -20,8 +23,10 @@ const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || "10000"
 );
 console.time("b");
-
 let mode = "development";
+const srcPath = joinPath('src')
+const publicPath = joinPath('public')
+const buildPath = joinPath('build')
 const ts = joinPath("src", "index.tsx");
 const js = joinPath("src", "index.js");
 // style files regexes
@@ -133,6 +138,9 @@ const plugins = [
     chunkFilename: "static/css/[id].[contenthash:8].css",
     ignoreOrder: true, // Enable to remove warnings about conflicting order
   }),
+  new PurgeCSSPlugin({
+      paths: glob.sync(`${srcPath}/**/*`,  { nodir: true }),
+    }),
   // new CompressionPlugin()
 ];
 
@@ -161,7 +169,7 @@ const optimize = () => {
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
+          // name: "vendors",
           chunks: "all",
           priority: -10,
           reuseExistingChunk: true,
@@ -171,7 +179,20 @@ const optimize = () => {
     minimizer: [
       // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
       `...`,
-      new CssMinimizerPlugin(),
+      new TerserPlugin({
+        parallel: true,
+        extractComments: false,
+        minify: TerserPlugin.swcMinify,
+        terserOptions: {
+          compress: {
+            drop_console: true,
+          },
+          mangle: true,
+        },
+      }),
+      new CssMinimizerPlugin({
+        parallel: 4,
+      }),
     ],
   };
 };
@@ -228,7 +249,7 @@ module.exports = {
     compress: true,
     port: 3000,
     static: {
-      directory: path.join(__dirname, "public"),
+      directory: publicPath,
     },
     host: "local-ip",
     // open: true,
@@ -246,6 +267,11 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+    modules: [
+      'node_modules',
+       srcPath,
+    ],
+
   },
   watchOptions: {
     ignored: [
@@ -261,9 +287,10 @@ module.exports = {
       ? "static/js/bundle.js"
       : "static/js/[name].[contenthash:8].js",
     path: isDevelopment
-      ? path.join(__dirname, "public")
-      : path.join(__dirname, "build"),
+      ? publicPath
+      : buildPath,
     pathinfo: isDevelopment,
+    assetModuleFilename: 'static/media/[name].[hash:8][ext]',
     // clean: true,
   },
   plugins: plugins,
@@ -272,7 +299,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|js)x?$/,
-        include: path.resolve(__dirname, "src"),
+        include: srcPath,
         exclude: /(node_modules)/,
         use: {
           loader: "swc-loader",
@@ -282,13 +309,13 @@ module.exports = {
       {
         test: cssRegex,
         exclude: [sassRegex, /node_modules/],
-        include: path.resolve(__dirname, "src"),
+        include: srcPath,
         use: [styleLoader, cssLoader(false, 1), postcssLoader],
       },
       {
         test: cssModuleRegex,
                 exclude: /node_modules/,
-                include: path.resolve(__dirname, "src"),
+                include: srcPath,
 
                 use: [styleLoader, cssLoader(true, 1), postcssLoader],
 
@@ -296,13 +323,13 @@ module.exports = {
       {
         test: sassRegex,
         exclude: [ sassModuleRegex, /node_modules/ ],
-        include: path.resolve(__dirname, "src"),
+        include: srcPath,
         use: [styleLoader, cssLoader(false, 2), "sass-loader", postcssLoader],
       },
       {
         test: sassModuleRegex,
                 exclude: /node_modules/,
-                include: path.resolve(__dirname, "src"),
+                include: srcPath,
                 use: [styleLoader, cssLoader(true, 2), "sass-loader", postcssLoader],
       },
       {

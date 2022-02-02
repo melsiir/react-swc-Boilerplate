@@ -5,7 +5,6 @@ const App = () => {
     <h1>hohha</h1>
      <div>say jest</div>
     <div className='svg'>ok</div>
-    <div className='img'>isolated</div>
       <p>
         Edit <code>src/App.js</code> and save to reload.
       </p>
