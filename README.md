@@ -21,3 +21,14 @@
 
 - `dev` : starting development server
 - `build` : bundle App for production
+- `analyze` : bundle App for production and make statical analyze report for the app modules in the browser
+
+### use TypeScript:
+
+if you want to use typescript you have to install it via `npm install typescript -D`.
+i didn't add it because i have installed it globally and then  rename the the index.js file in
+`src` folder from index.js to index.ts or index.tsx and you are good to go.
+
+### use TailwindCSS:
+
+just run `tailwind init` and do your work and thats done.

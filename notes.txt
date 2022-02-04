@@ -1,5 +1,0 @@
-if you want to use typescript you have to install add manualy 
-
-   npm install typescript -D
-
-i didn't include it in package.json cause i have installed it globally
