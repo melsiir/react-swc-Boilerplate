@@ -2,7 +2,7 @@
 
 const { execSync } = require("child_process");
 const readline = require('readline')
-const chalk = require('react-dev-utils/chalk')
+// const chalk = require('react-dev-utils/chalk')
 const path = require("path");
 const fs = require("fs");
 
