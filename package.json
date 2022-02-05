@@ -1,6 +1,6 @@
 {
   "name": "meslir-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "npm package to create react app in easy way no hussle",
   "main": "index.js",
   "repository": {
