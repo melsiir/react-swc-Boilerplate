@@ -1,4 +1,8 @@
+#!/usr/bin/node
+
 const { execSync } = require("child_process");
+const readline = require('readline')
+const chalk = require('react-dev-utils/chalk')
 const path = require("path");
 const fs = require("fs");
 
@@ -35,7 +39,8 @@ async function main() {
       process.chdir(projectPath);
 
       console.log('Installing dependencies...');
-      execSync('npm install');
+      // execSync('pnpm install');
+      console.log(`${process.argv}`)
 
       console.log('Removing useless files');
       execSync('npx rimraf ./.git');

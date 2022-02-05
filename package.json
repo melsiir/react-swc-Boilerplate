@@ -1,5 +1,5 @@
 {
-  "name": "meslir-react",
+  "name": "melsir-react",
   "version": "1.0.2",
   "description": "npm package to create react app in easy way no hussle",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "url": "https://github.com/melsiir/react-swc-Boilerplate.git"
   },
   "bin": {
-    "meslir-react": "./bin/generate.js"
+    "melsir-react": "./bin/generate.js"
   },
   "scripts": {
     "start": "webpack serve",
