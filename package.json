@@ -1,6 +1,6 @@
 {
   "name": "melsir-react",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "npm package to create react app in easy way no hussle",
   "main": "index.js",
   "repository": {
