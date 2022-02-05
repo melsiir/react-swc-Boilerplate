@@ -1,5 +1,6 @@
 console.time("a");
 const path = require("path");
+const os = require('os')
 const fs = require("fs");
 const glob = require("glob");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -193,7 +194,7 @@ const optimize = () => {
         },
       }),
       new CssMinimizerPlugin({
-        parallel: 4,
+        parallel: os.cpus().length - 1,
       }),
     ],
   };
@@ -398,7 +399,7 @@ module.exports = {
 
 registerShutdown(() => {
   process.on("SIGINT", () => {
-    devServer.close();
+    // devServer.close();
     process.exit(0);
   });
 });
