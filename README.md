@@ -25,33 +25,33 @@
 if you use npm use:
 
 ```
-    npx melsir-react <your-project-name>
+npx melsir-react <app-name>
 ```
 
 if you use pnpm use:
 
 ```
-    pnpm dlx melsir-react <your-project-name    
+pnpm dlx melsir-react <app-name> 
 ```
 
 or clone it to your project directory:
 
 ```
 git clon https://github.com/melsiir/react-swc-Boilerplate.git
-
 ```
 
 or
 
 ```
-git clon https://github.com/melsiir/react-swc-Boilerplate.git <your-project-directory>
+git clon https://github.com/melsiir/react-swc-Boilerplate.git <app-name>
+```
+if you clon it then you have to install manually packages and remove .git file:
 
 ```
-if you clon it:
-  then you have to install remove git file manually:
-
+rm -rf .git && rm -r bin
 ```
-rm -rf .git
+```
+npm install
 ```
 
 
