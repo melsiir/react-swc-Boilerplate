@@ -17,6 +17,44 @@
 
 ## I made this config to have more costimized experience with react ⚛️
 
+
+### installation
+
+- you can install it easly using npx command:
+
+if you use npm use:
+
+```
+    npx melsir-react <your-project-name>
+```
+
+if you use pnpm use:
+
+```
+    pnpm dlx melsir-react <your-project-name    
+```
+
+or clone it to your project directory:
+
+```
+git clon https://github.com/melsiir/react-swc-Boilerplate.git
+
+```
+
+or
+
+```
+git clon https://github.com/melsiir/react-swc-Boilerplate.git <your-project-directory>
+
+```
+if you clon it:
+  then you have to install remove git file manually:
+
+```
+rm -rf .git
+```
+
+
 ### usege
 
 - `dev` : starting development server
