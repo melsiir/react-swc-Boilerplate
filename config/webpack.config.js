@@ -1,4 +1,4 @@
-console.time("a");
+// console.time("a");
 const path = require("path");
 const os = require('os')
 const fs = require("fs");
@@ -24,7 +24,7 @@ const isTailwind = fs.existsSync(joinPath("../tailwind.config.js"));
 const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || "10000"
 );
-console.time("b");
+// console.time("b");
 let mode = "development";
 const srcPath = joinPath("..", "src");
 const publicPath = joinPath("..", "public");
@@ -66,7 +66,6 @@ const cssLoader = (isModule, imploader) => {
   return ocss;
 };
 
-console.log(cssLoader(false));
 const postcssLoader = {
   // Options for PostCSS as we reference these options twice
   // Adds vendor prefixing based on your specified browser support in
@@ -226,7 +225,6 @@ swcConfig.jsc.minify = isDevelopment
       mangle: true,
     };
 
-console.log(swcConfig);
 
 const registerShutdown = (fn) => {
   let run = false;
@@ -399,10 +397,10 @@ module.exports = {
 
 registerShutdown(() => {
   process.on("SIGINT", () => {
-    // devServer.close();
+    devServer.close();
     process.exit(0);
   });
 });
 
-console.timeEnd("b");
-console.timeEnd("a");
+// console.timeEnd("b");
+// console.timeEnd("a");
