@@ -3,7 +3,6 @@ import { execSync } from "child_process";
 import * as readline from "node:readline/promises";
 import { createRequire } from "module";
 
-import chalk from "chalk";
 import path from "path";
 import fs from "fs";
 const rl = readline.createInterface({
