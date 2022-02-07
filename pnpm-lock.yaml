@@ -11,6 +11,7 @@ specifiers:
   '@types/react-dom': ^17.0.11
   autoprefixer: ^10.4.2
   browserslist: ^4.19.1
+  chalk: ^5.0.0
   clean-webpack-plugin: ^4.0.0
   compression-webpack-plugin: ^9.2.0
   css-loader: ^6.5.1
@@ -44,6 +45,7 @@ specifiers:
   webpack-manifest-plugin: ^4.1.1
 
 dependencies:
+  chalk: 5.0.0
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
@@ -2922,6 +2924,11 @@ packages:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
     dev: true
+
+  /chalk/5.0.0:
+    resolution: {integrity: sha512-/duVOqst+luxCQRKEo4bNxinsOQtMP80ZYm7mMqzuh5PociNL0PvmHFvREJ9ueYL2TxlHjBcmLCdmocx9Vg+IQ==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: false
 
   /char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}

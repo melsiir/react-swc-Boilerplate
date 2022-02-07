@@ -38,14 +38,15 @@ try {
 
 async function main() {
   try {
-    console.log("Downloading files...");
+    console.log('\x1b[34m%s\x1b[0m', "Downloading files...");
+    console.log()
     execSync(`git clone --depth 1 ${git_repo} ${projectPath}`, {
       stdio: "ignore",
     });
 
     process.chdir(projectPath);
     const requiree = createRequire(import.meta.url);
-    const oldJson = await requiree("./package.json");
+    const oldJson = requiree(`${projectPath}/package.json`);
     let Appjson = {};
     Appjson.name = `${projectName}`;
     Appjson.version = "1.0.0";
@@ -56,10 +57,7 @@ async function main() {
 
     fs.writeFileSync("./package.json", JSON.stringify(Appjson, null, 2));
 
-    const answer = await rl.question(
-      `${chalk.blue(
-        "choose your package manger:\n"
-      )} 1- npm\n 2- pnpm\n 3- yarn\n`,
+    const answer = await rl.question(`choose your package manger:\n\n 1- npm\n 2- pnpm\n 3- yarn\n`,
       (ans) => {
         if (isNaN(ans)) console.log("please enter valid value");
         if (ans > 3 || ans < 1)
@@ -69,29 +67,31 @@ async function main() {
     rl.close();
     const managerList = ["npm", "pnpm", "yarn"];
     let pkgManager = managerList[answer - 1] || "npm";
-    console.log(chalk.blue("Installing dependencies..."));
+    console.log()
+    console.log('\x1b[34m%s\x1b[0m', "Installing dependencies...");
+    console.log()
     execSync(`${pkgManager} install`, {stdio: 'inherit'})
-    console.log(chalk.green("\nRemoving useless files"));
+    console.log('\x1b[32m%s\x1b[0m', "Removing useless files");
     // execSync("npx rimraf ./.git");
     execSync("rm -rf ./.git");
     fs.rmSync(path.join(projectPath, "bin"), { recursive: true });
-
-    console.log(chalk.blue(`Successfully created ${projectName} App`));
+    console.log()
+    console.log('\x1b[34m%s\x1b[0m', `Successfully created ${projectName} App`);
     console.log();
     console.log(`command list that you can use inside you project:`);
     console.log();
-    console.log(chalk.cyan(`    ${pkgManager} run dev`));
+    console.log('\x1b[36m%s\x1b[0m',`    ${pkgManager} run dev`);
     console.log("    Start development server");
     console.log();
-    console.log(chalk.cyan(`    ${pkgManager} run build`));
+    console.log('\x1b[36m%s\x1b[0m',`    ${pkgManager} run build`);
     console.log("    Bundles the app into static files for production");
     console.log();
-    console.log(chalk.cyan(`    ${pkgManager} run anlayze`));
+    console.log('\x1b[36m%s\x1b[0m',`    ${pkgManager} run anlayze`);
     console.log(
       "    Bundles the app into static files for production and also provide graphical analysis for App"
     );
     console.log();
-    console.log(chalk.blue(" Go impress the world"));
+    console.log('\x1b[34m%s\x1b[0m', " Go impress the world");
   } catch (error) {
     console.log(error);
   }
